@@ -1,0 +1,1213 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "AccessPoints",
+		"version": "http://schemas.isom.honeywell.com:9090/spec-files/json/gitVersion.txt",
+		"description": "An access control point. A point where access is authenticated by some means (access control reader, biometric device, etc).  Commonly, it is a point of transition from one access control area to another.  The portal may combine multiple devices (reader, door contact, request to exit, door strike etc.) into a transaction generator.  There may be directional information associated with transactions (entering area X, leaving area Y).."
+	},
+	"paths": {
+		"/config": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "#/definitions/APConfigList"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "lastRef",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "startRef",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "endRef",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "count",
+						"required": false,
+						"in": "query",
+						"type": "integer"
+					},
+					{
+						"name": "c",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "ci",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "e",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "ei",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "q",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					},
+					{
+						"name": "dvi",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAPList",
+				"summary": "Get configuration of multiple access points",
+				"description": "Gets configuration of multiple access points including information on relations with other ISOM entities, configuration of anti-passback rules, authentication policy, door lock unlock times, access point lockout rules. The count of items in list can be controlled as defined in section List Access Management. Use with List Control QSPs to return filtered or sorted list entries."
+			},
+			"post": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					},
+					"201": {
+						"description": "Created",
+						"schema": {
+							"$ref": "#/definitions/APConfig"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "APConfig",
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/APConfig"
+						}
+					}
+				],
+				"operationId": "AddAP",
+				"summary": "Create AccessPoint",
+				"description": "Creates a new access point (reader) including information on relations with other ISOM entities, configuration of anti-passback rules, authentication policy, door lock unlock times, access point lockout rules. The count of items in list can be controlled as defined in section List Access Management. Use with List Control QSPs to return filtered or sorted list entries."
+			}
+		},
+		"/state": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMStateList"
+						}
+					}
+				},
+				"operationId": "GetAllAccessPointState",
+				"summary": "Get overall state of multiple access points",
+				"description": "Gets a list of overall states of multiple access points including information on alarms, troubles, releases, omit/bypass state. The count of items in list can be controlled as defined in section List Access Management. Use with List Control QSPs to return filtered or sorted list entries."
+			}
+		},
+		"/supportedEvents": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "#/definitions/APEvents"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "dataFilter",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAPsSupportedEvents",
+				"summary": "Get supported events of access point entity",
+				"description": "Gets all supported events of access point entity."
+			}
+		},
+		"/supportedOperations": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "#/definitions/APOperations"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "dataFilter",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAPsSupportedOperations",
+				"summary": "Get supported operations of access point entity",
+				"description": "Gets all supported operations of access point entity."
+			}
+		},
+		"/supportedRelations": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "#/definitions/APSupportedRelations"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "dataFilter",
+						"required": false,
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAPsSupportedRelations",
+				"summary": "Get supported relation of access point entity",
+				"description": "Gets all supported relations of access point entity with other entities."
+			}
+		},
+		"/tests/range/start": {
+			"put": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"operationId": "StartReadRangeTestForReaders",
+				"summary": "Start read range test on multiple access points",
+				"description": "Starts card read range test on multiple access points. Usually this is installer function only to test the range of reader to read credentials. The ID of entities is specified as QSP."
+			}
+		},
+		"/tests/range/stop": {
+			"put": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"operationId": "StopReadRangeTestForReaders",
+				"summary": "Stop read range test on multiple access point",
+				"description": "Ends card read range test on multiple access point. The ID of entities is specified as QSP."
+			}
+		},
+		"/{apID}/config": {
+			"delete": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"operationId": "DeleteAP",
+				"summary": "Delete AccessPoint ",
+				"description": "Deletes specified access point"
+			},
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "#/definitions/APConfig"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAPDetails",
+				"summary": "Get configuration of access point",
+				"description": "Gets configuration of specified access point including information on relations with other ISOM entities, configuration of anti-passback rules, authentication policy, door lock unlock times, access point lockout rules."
+			},
+			"put": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					},
+					{
+						"name": "APConfig",
+						"in": "body",
+						"schema": {
+							"$ref": "#/definitions/APConfig"
+						}
+					}
+				],
+				"operationId": "ModifyAPDetails",
+				"summary": "Update configuration of access point",
+				"description": "Updates configuration of specified access point including information on relations with other ISOM entities, configuration of anti-passback rules, authentication policy, door lock unlock times, access point lockout rules. Creates a new access point if the specified access point doesn't exist."
+			}
+		},
+		"/{apID}/state": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMState"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"operationId": "GetAccessPointState",
+				"summary": "Get overall state of access point",
+				"description": "Gets a list of overall state of access points including information on alarms, troubles, releases, omit/bypass state. The count of items in list can be controlled as defined in section List Access Management. Use with List Control QSPs to return filtered or sorted list entries."
+			}
+		},
+		"/{apID}/tests/range/start": {
+			"put": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"operationId": "StartRangeTestForReader",
+				"summary": "Start read range test on access point",
+				"description": "Starts card read range test on specified access point. Usually this is installer function only to test the range of reader to read credentials."
+			}
+		},
+		"/{apID}/tests/range/stop": {
+			"put": {
+				"responses": {
+					"200": {
+						"description": "On Success",
+						"schema": {
+							"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/ResponseStatus.json#/definitions/ResponseStatus"
+						}
+					}
+				},
+				"parameters": [
+					{
+						"name": "apID",
+						"required": true,
+						"in": "path",
+						"type": "string"
+					}
+				],
+				"operationId": "StopReadRangeTestForReader",
+				"summary": "Stop read range test on access point",
+				"description": "Ends card read range test on specified access point."
+			}
+		}
+	},
+	"definitions": {
+		"Resources": {
+			"title": "Resources",
+			"type": "string",
+			"enum": [
+				"supportedOperations",
+				"supportedRelations",
+				"supportedEvents",
+				"supportedCapabilities",
+				"fullEntity",
+				"info",
+				"config",
+				"identifiers",
+				"relations",
+				"tests",
+				"tests_s_range",
+				"tests_s_range_s_start",
+				"tests_s_range_s_stop",
+				"omitState",
+				"omitState_s_unOmit",
+				"omitState_s_omit",
+				"omitState_s_omitWhenUnset",
+				"omitState_s_omitWhenUnsetOrPartSet",
+				"omitState_s_omitWhenFullSet",
+				"omitState_s_override",
+				"omitState_s_noOverride",
+				"state"
+			],
+			"x-pEnumVal": [
+				1010,
+				1011,
+				1012,
+				1013,
+				10050,
+				10051,
+				10071,
+				10091,
+				10111,
+				10140,
+				10141,
+				10142,
+				10143,
+				10160,
+				10165,
+				10166,
+				10167,
+				10168,
+				10169,
+				10170,
+				10171,
+				10240
+			],
+			"x-description": [
+				"Supported operations on this entity",
+				"All the relations for this entity",
+				"Events supported for this entity",
+				"The capabilities of this entity",
+				"",
+				"",
+				"Complete configuration of this entity",
+				"Identifiers",
+				"Relations of the entity instance",
+				"",
+				"",
+				"",
+				"",
+				"omit state of AP",
+				"Bring back omitted AP to normal",
+				"omit AP",
+				"omit AP when partition is in unset state",
+				"omit AP when partition is in unset and partset state",
+				"omit AP when partition is in fullset state",
+				"",
+				"",
+				""
+			],
+			"x-pMaxElement": 1073741824
+		},
+		"Relations": {
+			"title": "Relations",
+			"type": "string",
+			"enum": [
+				"APOwnedBySite",
+				"APOwnedByAccount",
+				"APEntryToPartition",
+				"APExitFromPartition",
+				"APHasLEDOutput",
+				"APHasTamperInput",
+				"APControlsDoor",
+				"APAllowOnlyVIPCardDuringSchedule",
+				"APAllowOnlyVIPCardAndEgressDuringSchedule",
+				"APHasBuzzerOutput",
+				"APHasDuressOutput",
+				"APAssignedToPeripheral"
+			],
+			"x-pEnumVal": [
+				10051,
+				10052,
+				10053,
+				10054,
+				10055,
+				10056,
+				10057,
+				10058,
+				10059,
+				10060,
+				10064,
+				10065
+			],
+			"x-description": [
+				"Specifies the Site that owns an access point.",
+				"Specifies the Account that owns an access point.",
+				"Specifies the Partition whose entry is regulated by an access point.",
+				"Specifies the Partition whose exit is regulated by an access point.",
+				"Specifies the LED output of this AP",
+				"Specifies the tamper Input associated to an access point.",
+				"Specifies the Door that is controlled by an access point.",
+				"Specifies the VIP Credential that is only allowed during a Schedule.",
+				"Specifies the VIP Credential that is only allowed during a Schedule.",
+				"Specifies the buzzer Output associated to an access point.",
+				"Specifies the duress Output associated to an access point. During duress ,  access point can drive this output. During normal operation ,  the duress output does nothing. To energize the output  ( for example ,  during a robbery )  ,  the credential holder presents her card to a reader that is configured for Card and PIN access. Usually the credential holder enters a PIN that is either one number higher or one number lower than the correct PIN. Even though the PIN is incorrect ,  the associated door will still open normally ,  but the duress output pulses and an alarm is generated.",
+				"Specifies the Peripheral to which an Access-Point is assigned. This relation needs to be used when AP is not directly assigned to Door."
+			],
+			"x-pMaxElement": 1073741824
+		},
+		"Events": {
+			"title": "Events",
+			"type": "string",
+			"enum": [
+				"config_p_add",
+				"config_p_modify",
+				"config_p_delete",
+				"access",
+				"access_p_granted",
+				"access_p_granted_p_vip",
+				"access_p_granted_p_supervisor",
+				"access_p_denied",
+				"access_p_denied_p_credNotFound",
+				"access_p_denied_p_credMismatch",
+				"access_p_denied_p_invalidCredFormat",
+				"access_p_denied_p_credExpired",
+				"access_p_denied_p_credNotYetActive",
+				"access_p_denied_p_credDisabled",
+				"access_p_denied_p_tooManyAttempts",
+				"access_p_denied_p_notPermittedAtThisTime",
+				"access_p_denied_p_apbViolation_p_hard",
+				"access_p_denied_p_apbViolation_p_soft",
+				"access_p_denied_p_invalidSiteCode",
+				"access_p_denied_p_supervisorRequired",
+				"access_p_duress_p_silent",
+				"access_p_lockOutState_p_lockedOut",
+				"access_p_lockOutState_p_normal",
+				"escort",
+				"access_p_denied_p_escort_p_required",
+				"escort_p_notEnabled",
+				"escort_p_validated",
+				"trace",
+				"vipTrace"
+			],
+			"x-pEnumVal": [
+				10011,
+				10012,
+				10013,
+				11000,
+				11001,
+				11002,
+				11003,
+				11100,
+				11110,
+				11111,
+				11112,
+				11113,
+				11119,
+				11120,
+				11121,
+				11114,
+				11115,
+				11116,
+				11117,
+				11118,
+				11700,
+				11701,
+				11702,
+				11800,
+				11801,
+				11802,
+				11803,
+				11911,
+				11912
+			],
+			"x-description": [
+				"Indicates that a new access point is successfully added.",
+				"Indicates that an access point is successfully modified.",
+				"Indicates that an access point is successfully deleted.",
+				"Indicates access granted/ denied related events",
+				"Indicates that access is granted to a Credential.",
+				"Indicates that access is granted to a Credential of type VIP.",
+				"Indicates that access is granted to a Credential of type supervisor.",
+				"Indicates that access is denied to a Credential.",
+				"Indicates that access is denied as a presented credential is not found in the system.",
+				"Indicates that access is denied due to credential mismatch. This could happen when multiple credentials have to be presented simultaneously to gain access and a mismatch is detected between them.",
+				"Indicates that access is denied as the credential is presented is invalid. A access card may be considered invalid ,  if the card format is not understandable by an access point.",
+				"Indicates that access is denied as the credential presented has expired.",
+				"Indicates that access is denied as the user is not active yet   ( start date is yet to come ) .",
+				"Indicates that access is denied as presented credential is disabled and this is regardless of validity.",
+				"Indicates that access is denied as too many attempts are tried with wrong credentials. This may be an attempt by intruder to get the access by trial and error method.",
+				"Indicates that access is denied as the credential is not allowed during this time.",
+				"Indicates that access is denied due to a hard anti-passback violation. A credential holder is denied entry on a hard anti-passback violation.",
+				"Indicates a soft anti-passback violation. A credential holder is allowed entry on a soft anti-passback violation.",
+				"Indicates that access is denied due to an invalid site code event. Site codes  ( also called facility codes )  identify an enterprise?s site with unique numbers for each site. Usually a maximum of eight site codes can be created to serve as secondary IDs  ( in addition to the card number )  on the card for additional validation.",
+				"Indicates that access is denied as the supervisor has not yet enabled general access. Usually a credential of type supervisor has to be presented to allow general access to the site.",
+				"Indicates a silent duress event. During a duress the credential holder can notify others without detection by the unauthorized person. Usually duress requires both a PIN value and credential number to be recognized. This event is triggered when an associated duress output related as \"APHasDuressOutput\" is activated.",
+				"Indicates that an access point is in locked out condition. This may due to maximum number of unsuccessful attempts are exceeded and the AP is not ready to accept further requests immediately.",
+				"Indicates that an access point is resumed its operation after lockout duration.",
+				"Indicates escort related events",
+				"Indicates that access is denied for a credential holder as an escort is required and the escort has not presented her credential.",
+				"Indicates that escort is not enabled for this access point. Usually a credential holder with a credential type of visitor can not gain access unless the escort associated to her presents her credential. The current event is triggered when such configuration is emitted.",
+				"Indicates that the Credential of escort is validated and a visitor can now gain access.",
+				"Indicates a trace event.",
+				"Indicates a VIP trace event."
+			],
+			"x-pMaxElement": 1073741824
+		},
+		"APOperations": {
+			"title": "APOperations",
+			"type": "object",
+			"properties": {
+				"resources": {
+					"type": "array",
+					"description": "",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/Resources"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APSupportedRelations": {
+			"title": "APSupportedRelations",
+			"type": "object",
+			"properties": {
+				"relations": {
+					"type": "array",
+					"description": "",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/Relations"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APEvents": {
+			"title": "APEvents",
+			"type": "object",
+			"properties": {
+				"events": {
+					"type": "array",
+					"description": "",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/Events"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APOmitState": {
+			"title": "APOmitState",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"x-tag": 11,
+					"description": "Specifies a mandatory identifier to uniquely represent an Access Point. This is the access point \"id\" that would be omitted."
+				},
+				"omitType": {
+					"x-tag": 21,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMOmitType",
+					"x-description": "Omit is to temporarily make the system ignore a given partition member. When a PM is omitted ,   releases/troubles from the PM are ignored by the system."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APOmitStateList": {
+			"title": "APOmitStateList",
+			"type": "object",
+			"properties": {
+				"omitState": {
+					"type": "array",
+					"description": "Specifies a list of omit states of one or more PMs.",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/APOmitState"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"LockOutType": {
+			"title": "LockOutType",
+			"type": "string",
+			"enum": [
+				"lockedOut",
+				"normal"
+			],
+			"x-pEnumVal": [
+				11,
+				12
+			],
+			"x-description": [
+				"Access point is in locked out condition.",
+				"Access point is operating normally."
+			],
+			"x-pMaxElement": 1073741824
+		},
+		"APLockOutState": {
+			"title": "APLockOutState",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"x-tag": 11,
+					"description": "Specifies a mandatory identifier to uniquely represent an Access Point."
+				},
+				"state": {
+					"x-tag": 12,
+					"$ref": "#/definitions/LockOutType",
+					"x-description": "Specifies an AP's lockout condition."
+				},
+				"remainingDuration": {
+					"type": "string",
+					"x-tag": 13,
+					"description": "Specifies the remaning time during which an AP will continue in lock out condition."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APLockOutStateList": {
+			"title": "APLockOutStateList",
+			"type": "object",
+			"properties": {
+				"lockOutState": {
+					"type": "array",
+					"description": "Specifies a list of lock out states of one or more APs.",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/APLockOutState"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APLockOut": {
+			"title": "APLockOut",
+			"type": "object",
+			"properties": {
+				"successiveNoOfFailAttempts": {
+					"minimum": 0,
+					"format": "uint64",
+					"type": "integer",
+					"x-tag": 11,
+					"description": "Specifies the number of successive failed attempts that would trigger a lockout condition."
+				},
+				"timeDuration": {
+					"type": "string",
+					"x-tag": 12,
+					"description": "Deprecated. Use apTimeDuration. Specifies the duration during which successive fail attempts are tracked for a lock out."
+				},
+				"lockoutDuration": {
+					"type": "string",
+					"x-tag": 13,
+					"description": "Deprecated. Use apLockoutDurationSpecifies the duration for which the access point is deactivated  ( lockout condition )  if a lock out condition is detected"
+				},
+				"apTimeDuration": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 14,
+					"description": "Specifies the duration during which successive fail attempts are tracked for a lock out. The duration is specified as a string represented in ISOM Duration format Ex :  PT5S ,  5 sec"
+				},
+				"apLockoutDuration": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 15,
+					"description": "Specifies the duration for which the access point is deactivated  ( lockout condition )  if a lock out condition is detected. The duration is specified as a string represented in ISOM Duration format Ex :  PT5S ,  5 sec"
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APOccupancyConfig": {
+			"title": "APOccupancyConfig",
+			"type": "object",
+			"properties": {
+				"minimumCountEnforce": {
+					"type": "boolean",
+					"x-tag": 11,
+					"description": "Deprecated with minimumCount. Used in MB-Secure. If set to true ,  specifies that the minimum count rule for occupancy is enforced."
+				},
+				"maximumCountEnforce": {
+					"type": "boolean",
+					"x-tag": 12,
+					"description": "Deprecated with maximumCount. Used in MB-Secure. If set to true ,  specifies that the maximum count rule for occupancy is enforced."
+				},
+				"minimumCount": {
+					"minimum": 0,
+					"format": "uint64",
+					"type": "integer",
+					"x-tag": 13,
+					"description": "Specifies minimum count value to be used when rule for occupancy is enforced."
+				},
+				"maximumCount": {
+					"minimum": 0,
+					"format": "uint64",
+					"type": "integer",
+					"x-tag": 14,
+					"description": "Specifies maximum count value to be used when rule for occupancy is enforced."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APIdentifiers": {
+			"title": "APIdentifiers",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"x-tag": 11,
+					"description": "Specifies a mandatory identifier to uniquely represent an Access Point."
+				},
+				"guid": {
+					"type": "string",
+					"x-tag": 12,
+					"description": "Specifies a GUID to represent an access point. GUID can also be used as a unique identifier  ( \"id\" )  to represent an access point."
+				},
+				"name": {
+					"type": "string",
+					"x-tag": 13,
+					"description": "Specifies the name of an access point. In some systems ,  name could also be used as unique identifier  ( \"id\" )  to represent a access point."
+				},
+				"description": {
+					"type": "string",
+					"x-tag": 14,
+					"description": "Specifies some description about an access point."
+				},
+				"tag": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Specifies keywords used to describe additional aspect about Entity ,  these aspects can also be used as search keywords",
+					"x-tag": 15
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APIdentifiersList": {
+			"title": "APIdentifiersList",
+			"type": "object",
+			"properties": {
+				"identifiersList": {
+					"type": "array",
+					"description": "",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/APIdentifiers"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APRelation": {
+			"title": "APRelation",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"x-tag": 11,
+					"description": "Specifies an identifier to uniquely represent a relation in an instance of an Access Point entity. Usually used to modify this relation ,  query data based on this relation."
+				},
+				"name": {
+					"x-tag": 12,
+					"$ref": "#/definitions/Relations",
+					"x-description": "Specifies a relation from the list of applicable relations of an Access Point with another entity."
+				},
+				"entityId": {
+					"type": "string",
+					"x-tag": 14,
+					"description": "Specifies the unique identifier of an entity instance to which the current entity instance is related to."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APRelationList": {
+			"title": "APRelationList",
+			"type": "object",
+			"properties": {
+				"relation": {
+					"type": "array",
+					"description": "Partition_Number ,  Authority_Level",
+					"x-tag": 12,
+					"items": {
+						"$ref": "#/definitions/APRelation"
+					}
+				}
+			},
+			"x-extensions": {}
+		},
+		"APGrantedEventConfig": {
+			"title": "APGrantedEventConfig",
+			"type": "object",
+			"properties": {
+				"partitionSetType": {
+					"x-tag": 11,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/AC.json#/definitions/PartitionSetType",
+					"x-description": "this is the state partition will be ,  when access granted is triggerd by the access point"
+				},
+				"autoPartSet": {
+					"type": "boolean",
+					"x-tag": 12,
+					"description": "flag to indicate access granted event can trigger partition set state with/without auto part set option"
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APConfig": {
+			"title": "APConfig",
+			"type": "object",
+			"properties": {
+				"identifiers": {
+					"x-tag": 11,
+					"$ref": "#/definitions/APIdentifiers",
+					"x-description": "Specifies parameters to identify an Access-Point"
+				},
+				"relation": {
+					"type": "array",
+					"description": "Specifies relations to relate an Access-Point with other entities",
+					"x-tag": 10,
+					"items": {
+						"$ref": "#/definitions/APRelation"
+					}
+				},
+				"omitType": {
+					"x-tag": 21,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMOmitType",
+					"x-description": "Specifies when an Access-Point needs to be omitted  ( releases/troubles from the Device are ignored by the control panel ) . Typically omit is used to permanently make the control panel ignore an Access Point."
+				},
+				"alertingTypePartSet": {
+					"x-tag": 27,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMAlertType",
+					"x-description": "Specifies alert type for a release of an Access-Point when partition is \"partset\"  ( arm-stay ) . Ex :  If alert type is set to local then the alarm is annunciated through a local siren only."
+				},
+				"alertingTypeFullSet": {
+					"x-tag": 28,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMAlertType",
+					"x-description": "Specifies alert type for a release of a Access-Point when partition is \"fullset\"  ( arm-away ) . Ex :  If alert type is set to full then the alarm is annunciated through a local siren and is also notified to central station."
+				},
+				"alarmRepeat": {
+					"type": "boolean",
+					"x-tag": 31,
+					"description": "If set to true ,  specifies that a same alarm if occurs again can be reported before an acknowledgement is received. Ex :  Perimeter zone triggers should be reported despite being violated multiple times ,  irrespective of the first episode being acknowledged or not. Similarly a motion detection may not be reported multiple times until it is  acknowledged. Every alarm that is reported incurs cost to the customer and this feature helps users to prioritize alarms that are reported repeatedly."
+				},
+				"releaseDelay": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 32,
+					"description": "Specifies the duration after which releases  ( faults/alarms/troubles )  are reported to Partition. The duration is specified as a string represented in ISOM Duration format Ex :  PT5S ,  5 sec"
+				},
+				"normalDelay": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 34,
+					"description": "Specifies the duration after which normal condition ( return to normal )  to Partition would be reported. The duration must be specified as a string represented in ISOM Duration format. Ex :  PT5S ,  5 sec"
+				},
+				"enableAutomaticClear": {
+					"type": "boolean",
+					"x-tag": 37,
+					"description": "If set to true ,  specifies that releases  ( faults/alarms/troubles )  can be automatically cleared. Ex :  Typically used typically in 3rd party panic button devices or PM with smoke detectors requiring alarm verification."
+				},
+				"enableActiveReleaseClear": {
+					"type": "boolean",
+					"x-tag": 38,
+					"description": "If set to true ,  specifies that clearing of active releases  ( faults/alarms/troubles )  on an Access-Point is allowed."
+				},
+				"doorUnlockDuration": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 1001,
+					"description": "Specifies the duration for which a Door is unlocked before it is relocked. Typically when a door access request is granted ,  the door remains unlocked until the \"doorUnlockDuration\" is elapsed ,  or until the door is closed again ,  whichever comes first. The duration must be specified as a string represented in ISOM Duration format. Ex :  PT5S ,  5 sec. Ex :  When a door is unlocked by user \"A\" the \"doorUnlockDuration\" interval time is triggered. The door will automatically relock when the \"doorUnlockDuration\" is met ,  or when the door is open and then closed again."
+				},
+				"extendedDoorUnlockDuration": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 1002,
+					"description": "Specifies the extended duration for which a Door can remain unlocked. Typically when a door access request is granted ,  the door remains unlocked until the \"doorUnlockDuration\" is elapsed ,  or until the door is closed again ,  whichever comes first. In some situations ,  the user may want to keep the door unlocked for the entire interval time ,  even when it is closed again. The duration must be specified as a string represented in ISOM Duration format. Ex :  PT5S ,  5 sec. Ex :  When a door is unlocked by user \"A\" the \"doorUnlockDuration\" interval time is triggered. The door will automatically relock when the \"doorUnlockDuration\" is met ,  or when the door is open and then closed again. Sometimes before user \"A\" approaches the door and opens it ,  a handicapped person ,  user \"B\" ,  also presents a badge. Access is granted and the \"doorUnlockDuration\" time is extended for \"extendedDoorUnlockDuration\" to reflect this latest grant access request."
+				},
+				"lockOut": {
+					"x-tag": 1003,
+					"$ref": "#/definitions/APLockOut",
+					"x-description": "Specifies an Access-Point lock out condition."
+				},
+				"transientDuration": {
+					"format": "duration",
+					"type": "string",
+					"x-tag": 1004,
+					"description": "Specifies the time difference between successive swipes. The duration must be specified as a string represented in ISOM Duration format. Ex :  PT5S ,  5 sec. Ex :  Can be used when the employee credential is swiped within 10 seconds of the supervisor card swipe ,  the door opens to admit the employee and the LED returns to rapid flashing. If the \"transientDuration\" expires and there is no employee credential swipe ,  the LED returns to rapid flashing and the reader returns to escort mode."
+				},
+				"occupancy": {
+					"x-tag": 1005,
+					"$ref": "#/definitions/APOccupancyConfig",
+					"x-description": "Specifies occupancy configuration of an Access-Point."
+				},
+				"authPolicy": {
+					"type": "array",
+					"description": "Specifies authentication policies for an Access-Point.",
+					"x-tag": 1006,
+					"items": {
+						"$ref": "#/definitions/AuthenticationPolicy"
+					}
+				},
+				"antiPassback": {
+					"x-tag": 24,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/AC.json#/definitions/PartitionAntiPassback",
+					"x-description": "Specifies anti-passback configuration of a Access-Point. Anti-passback mandates that a credential/card holder must use her card in the proper IN/OUT sequence. If the sequence is invalid ,  an anti-passback violation is generated and the card holder is denied access."
+				},
+				"grantedEventConfig": {
+					"x-tag": 1007,
+					"$ref": "#/definitions/APGrantedEventConfig",
+					"x-description": "Specifies the granted event configuration of an Access-Point."
+				},
+				"credentialFormats": {
+					"type": "array",
+					"description": "Specifies Card Formats supported by Access-Point.",
+					"x-tag": 1008,
+					"items": {
+						"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/Credentials.json#/definitions/CredentialFormatConfig"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 900000,
+				"max": 1099999
+			}
+		},
+		"AuthPolicyElementOperand": {
+			"title": "AuthPolicyElementOperand",
+			"type": "object",
+			"properties": {
+				"authenticationFactor": {
+					"x-tag": 13,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/UserMgmt.json#/definitions/AuthenticationFactor",
+					"x-description": "Specifies the authentication factor used to grant access to a Credential-Holder. It could be a card  ,  PIN or a fingerprint. This is mutually exclusive to \"authPolicyElementId\"."
+				},
+				"authFactor": {
+					"x-tag": 11,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/Credentials.json#/definitions/AuthenticationFactorType",
+					"x-description": "Deprecated. Used in NetAXS123. Specifies the authentication factor used to grant access to a Credential-Holder. It could be a card  ,  PIN or a fingerprint. This is mutually exclusive to \"authPolicyElementId\"."
+				},
+				"authPolicyElementId": {
+					"type": "string",
+					"x-tag": 12,
+					"description": "Specifies the authentication policy element identifier. This is mutually exclusive to \"authFactor\". Typically used to define complex logic such as Card AND PIN OR CARD AND Fingerprint"
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			},
+			"x-tag": 13,
+			"description": "Specifies an AuthPolicyElement operand."
+		},
+		"AuthPolicyElement": {
+			"title": "AuthPolicyElement",
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"x-tag": 11,
+					"description": "Specifies a mandatory identifier to uniquely represent an authentication policy. This is referred while defining complex logic such as Card AND PIN OR Card AND Fingerprint. This can be referred in \"authPolicyElementId\"."
+				},
+				"operation": {
+					"x-tag": 12,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/StdDef.json#/definitions/LogicalOperation",
+					"x-description": "Specifies a logical operation such as AND or OR to be performed on various types of authentication factors."
+				},
+				"operand": {
+					"type": "array",
+					"description": "Specifies an AuthPolicyElement operand.",
+					"x-tag": 13,
+					"items": {
+						"$ref": "#/definitions/AuthPolicyElementOperand"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			},
+			"x-tag": 11,
+			"description": "Specifies the elements defining authentication policy. Repeated in case of complex logic such as Card AND PIN OR Card AND Fingerprint"
+		},
+		"AuthenticationPolicy": {
+			"title": "AuthenticationPolicy",
+			"type": "object",
+			"properties": {
+				"policyElement": {
+					"type": "array",
+					"description": "Specifies the elements defining authentication policy. Repeated in case of complex logic such as Card AND PIN OR Card AND Fingerprint",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/AuthPolicyElement"
+					}
+				},
+				"orderEnforced": {
+					"type": "boolean",
+					"x-tag": 12,
+					"description": "If set to true ,  specifies that the authentication policy will follow the order in which it is defined. Ex :  A Card and Pin authentication means a card must be presented before typing the PIN."
+				},
+				"scheduleId": {
+					"x-tag": 13,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/StdDef.json#/definitions/IsomEntityInstance",
+					"x-description": "Specifies the Schedule identifier during with the authentication policy is active."
+				},
+				"requiresSupervisorAccess": {
+					"type": "boolean",
+					"x-tag": 14,
+					"description": "If set to true ,  specifies that a supervisor credential has to be presented before any other credential is granted access."
+				},
+				"requiresEscort": {
+					"type": "boolean",
+					"x-tag": 15,
+					"description": "If set to true ,  specifies that an escort credential has to be presented before any other credential of type visitor or guest etc. ,  is granted access."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			},
+			"x-tag": 1006,
+			"description": "Specifies authentication policies for an Access-Point."
+		},
+		"MultipleAuthfactor": {
+			"title": "MultipleAuthfactor",
+			"type": "object",
+			"properties": {
+				"authFactor": {
+					"x-tag": 11,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/UserMgmt.json#/definitions/AuthenticationFactor",
+					"x-description": "Specifies the authentication factor used to grant access to a Credential-Holder. It could be a card  ,  PIN or a fingerprint. This is mutually exclusive to \"authPolicyElementId\"."
+				},
+				"level": {
+					"minimum": 0,
+					"format": "uint64",
+					"type": "integer",
+					"x-tag": 12,
+					"description": "Specifies the level number at which the \"authFactor\" is present in a multi-level authentication scheme. Typically items at same level are ORe'd and items at different level are AND'ed."
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APConfigList": {
+			"title": "APConfigList",
+			"type": "object",
+			"properties": {
+				"accessPoints": {
+					"type": "array",
+					"description": "",
+					"x-tag": 11,
+					"items": {
+						"$ref": "#/definitions/APConfig"
+					}
+				}
+			},
+			"x-extensions": {
+				"min": 1000000,
+				"max": 1099999
+			}
+		},
+		"APEntity": {
+			"title": "APEntity",
+			"type": "object",
+			"properties": {
+				"config": {
+					"x-tag": 11,
+					"$ref": "#/definitions/APConfig",
+					"x-description": "Specifies the configuration of AP entity"
+				},
+				"state": {
+					"x-tag": 12,
+					"$ref": "http://schemas.isom.honeywell.com:9090/spec-files/json/PMs.json#/definitions/PMState",
+					"x-description": "Specifies the state of AP entity"
+				}
+			},
+			"x-extensions": {}
+		}
+	},
+	"schemes": [
+		"http"
+	],
+	"host": "localhost",
+	"basePath": "/ISOM/AC/AccessPoints/"
+}
